@@ -23,5 +23,5 @@
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/predator-vs-goat.git
-cd Goat-Run
+git clone https://github.com/yourusername/goat-run.git
+

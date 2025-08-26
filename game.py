@@ -58,22 +58,23 @@ class Animal:
             if self.is_in_radius(target):
                 target.health -= damage
                 if target.symbol:
-                    log_message(f"YOU HAVE BEEN ATTACKED by {self.name}! Lost {damage:.1f} health.", "red")
+                    log_message(f"YOU HAVE BEEN ATTACKED by {self.name}! with {damage:.1f} damage.", "red")
                 else:
                     log_message(f"{self.name} attacks {target.name} for {damage:.1f} damage!", "red")
             else:
                 log_message(f"{self.name} tried to attack {target.name} but target is out of range", "yellow")
 
-    def defend(self):
-        if self.under_attack:
-            loss = self.defence / 4
-            self.health -= loss
-            self.defence -= loss
-            self.under_attack = False
-            if self.symbol:
-                log_message(f"YOU DEFENDED! Lost {loss:.1f} health/defence. Health: {self.health:.1f}, Defence: {self.defence:.1f}", "blue")
-            else:
-                log_message(f"{self.name} defends and loses {loss:.1f} health/defence.", "blue")
+    def defend(self, incoming_damage):
+        # Defense reduces incoming damage
+        reduced_damage = max(0, incoming_damage - (self.defence / 10))
+        self.health -= reduced_damage
+
+        # Defense weakens slightly each time you defend
+        self.defence = max(0, self.defence - incoming_damage / 5)
+
+        self.under_attack = False
+        log_message(f"{self.name} defends! Took {reduced_damage} damage. Defence is now {self.defence}.", "blue")
+
 
     def consume_food(self, foods):
         for food in foods[:]:
@@ -192,7 +193,7 @@ def main():
                 if predator.is_in_radius(goat):
                     damage = random.randint(5,20)
                     predator.attack(goat, damage)
-                    goat.defend()
+                    goat.defend(damage)
                     if goat.health<=0:
                         log_message(f"{goat.name} has been defeated!", "red")
                         if goat==player_goat:

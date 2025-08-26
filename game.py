@@ -185,7 +185,7 @@ def predator_decide_move(predator, goats, foods):
 # --- Main Game ---
 def main():
     # Setup
-    foods = [Food(random.randint(5,30),(random.randint(0,14),random.randint(0,20)), defense=random.uniform(1, 5)) for _ in range(8)]
+    foods = [Food(random.randint(5,30),(random.randint(0,14),random.randint(0,14)), random.randint(5,15)) for _ in range(8)]
     predators = [Animal(f"Predator{i+1}") for i in range(4)]
     player_symbol = choose_player_symbol()
     player_goat = Animal("PlayerGoat", symbol=player_symbol)

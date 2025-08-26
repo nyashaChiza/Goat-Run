@@ -18,12 +18,13 @@ def log_message(message, color="yellow"):
 
 # --- Classes ---
 class Food:
-    def __init__(self, value, position):
+    def __init__(self, value, position, defense):
         self.value = value
+        self.defense = defense
         self.position = position
 
     def __str__(self):
-        return f"Food(value={self.value}, position={self.position})"
+        return f"Food(value={self.value}, position={self.position}, defense={self.defense})"
 
 class Animal:
     def __init__(self, name, symbol=None):
@@ -95,6 +96,7 @@ class Animal:
         for food in foods[:]:
             if food.position in self.radius():
                 self.health += food.value
+                self.defence += food.defense
                 foods.remove(food)
                 if self.symbol:
                     log_message(f"YOU CONSUMED {food}! Gained {food.value} health. Total health: {self.health:.1f}", "green")
@@ -183,7 +185,7 @@ def predator_decide_move(predator, goats, foods):
 # --- Main Game ---
 def main():
     # Setup
-    foods = [Food(random.randint(5,30),(random.randint(0,14),random.randint(0,14))) for _ in range(8)]
+    foods = [Food(random.randint(5,30),(random.randint(0,14),random.randint(0,20)), defense=random.uniform(1, 5)) for _ in range(8)]
     predators = [Animal(f"Predator{i+1}") for i in range(4)]
     player_symbol = choose_player_symbol()
     player_goat = Animal("PlayerGoat", symbol=player_symbol)

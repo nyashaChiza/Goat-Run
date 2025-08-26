@@ -65,15 +65,30 @@ class Animal:
                 log_message(f"{self.name} tried to attack {target.name} but target is out of range", "yellow")
 
     def defend(self, incoming_damage):
-        # Defense reduces incoming damage
-        reduced_damage = max(0, incoming_damage - (self.defence / 10))
-        self.health -= reduced_damage
+        if self.defence > 0:
+            # Decide how much of the damage is absorbed by defence
+            absorbed = random.uniform(0.3, 0.7) * incoming_damage
+            absorbed = min(absorbed, self.defence)  # can’t absorb more than available defence
 
-        # Defense weakens slightly each time you defend
-        self.defence = max(0, self.defence - incoming_damage / 5)
+            # Reduce defence and apply remaining damage to health
+            self.defence -= absorbed
+            self.health -= max(0, incoming_damage - absorbed)
+
+            log_message(
+                f"{self.name} defends! Defence absorbed {absorbed:.1f} damage. "
+                f"Took {max(0, incoming_damage - absorbed):.1f} damage to health. "
+                f"Remaining Defence: {self.defence:.1f}, Health: {self.health:.1f}",
+                "blue"
+            )
+        else:
+            # No defence left → full damage goes to health
+            self.health -= incoming_damage
+            log_message(
+                f"{self.name} has no defence left! Took {incoming_damage:.1f} damage directly to health.",
+                "red"
+            )
 
         self.under_attack = False
-        log_message(f"{self.name} defends! Took {reduced_damage} damage. Defence is now {self.defence}.", "blue")
 
 
     def consume_food(self, foods):

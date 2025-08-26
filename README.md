@@ -50,7 +50,7 @@ pip install -r requirements.txt
 1. Make the launcher script executable:
 
 ```bash
-chmod +x run_game.sh
+chmod +x play.sh
 ```
 
 2. Run the game:
@@ -61,7 +61,7 @@ chmod +x run_game.sh
 
 ### Windows
 
-1. Double-click `run_game.bat`, or run it from Command Prompt:
+1. Double-click `play.bat`, or run it from Command Prompt:
 
 ```bat
 play.bat

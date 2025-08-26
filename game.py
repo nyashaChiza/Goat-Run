@@ -117,7 +117,6 @@ def end_game(player, win: bool):
         f"<green>Defence:</green> {player.defence:.1f}\n"
         f"<green>Position:</green> {player.position}\n"
     )
-    input()
 
 
 def draw_board(animals, foods, player_goat, size=15):
@@ -189,7 +188,7 @@ def main():
     predators = [Animal(f"Predator{i+1}") for i in range(4)]
     player_symbol = choose_player_symbol()
     player_goat = Animal("PlayerGoat", symbol=player_symbol)
-    other_goats = [Animal(f"Goat{i+1}") for i in range(2)]
+    other_goats = [Animal(f"Goat{i+1}") for i in range(3)]
     all_animals = predators + [player_goat] + other_goats
     turn = 0
 

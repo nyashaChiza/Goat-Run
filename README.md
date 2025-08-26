@@ -29,7 +29,7 @@
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/goat-run.git
+git clone https://github.com/nyashaChiza/goat-run.git
 cd goat-run
 ````
 
@@ -73,10 +73,10 @@ The batch file will automatically check for Python and required packages.
 
 ## Controls
 
-* **w** = Move up
-* **s** = Move down
-* **a** = Move left
-* **d** = Move right
+ **w** = Move up
+ **s** = Move down
+ **a** = Move left
+ **d** = Move right
 
 Your goal: consume all the food while avoiding predators.
 

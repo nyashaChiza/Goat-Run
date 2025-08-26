@@ -225,7 +225,7 @@ def main():
             predator_decide_move(predator, [player_goat]+other_goats, foods)
             for goat in [player_goat]+other_goats:
                 if predator.is_in_radius(goat):
-                    damage = random.randint(5,20)
+                    damage = random.randint(5,10)
                     predator.attack(goat, damage)
                     goat.defend(damage)
                     if goat.health<=0:

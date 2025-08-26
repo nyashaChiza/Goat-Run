@@ -67,7 +67,7 @@ class Animal:
     def defend(self, incoming_damage):
         if self.defence > 0:
             # Decide how much of the damage is absorbed by defence
-            absorbed = random.uniform(0.3, 0.7) * incoming_damage
+            absorbed = random.uniform(0.4, 0.7) * incoming_damage
             absorbed = min(absorbed, self.defence)  # can’t absorb more than available defence
 
             # Reduce defence and apply remaining damage to health
@@ -105,6 +105,19 @@ class Animal:
         return f"{self.name}(H:{self.health:.1f}, D:{self.defence:.1f}, Pos:{self.position})"
 
 # --- Helper functions ---
+def end_game(player, win: bool):
+    status = "🏆 YOU WIN!" if win else "☠️ GAME OVER!"
+    logger.opt(colors=True).success(
+        f"\n\n<green>{status}</green>\n"
+        f"<green>Final Stats:</green>\n"
+        f"<green>Name:</green> {player.name}\n"
+        f"<green>Health:</green> {player.health:.1f}\n"
+        f"<green>Defence:</green> {player.defence:.1f}\n"
+        f"<green>Position:</green> {player.position}\n"
+    )
+    input()
+
+
 def draw_board(animals, foods, player_goat, size=15):
     board = [["." for _ in range(size)] for _ in range(size)]
     # Place food
@@ -183,15 +196,18 @@ def main():
         turn +=1
         print(f"--- Turn {turn} ---")
         draw_board(all_animals, foods, player_goat)
+
         # Player move
         move = None
         while move is None:
             move = get_player_move()
         player_goat.move(move)
         player_goat.consume_food(foods)
+
         if player_goat.health <=0:
-            log_message("You have been defeated! Game over.", "red")
+            end_game(player_goat, win=False)
             break
+
         # Other goats move
         for goat in other_goats[:]:
             move = random.choice(["up","down","left","right"])
@@ -201,6 +217,7 @@ def main():
                 log_message(f"{goat.name} has been defeated!", "red")
                 all_animals.remove(goat)
                 other_goats.remove(goat)
+
         # Predators move
         for predator in predators:
             predator_decide_move(predator, [player_goat]+other_goats, foods)
@@ -212,18 +229,20 @@ def main():
                     if goat.health<=0:
                         log_message(f"{goat.name} has been defeated!", "red")
                         if goat==player_goat:
-                            break
+                            end_game(player_goat, win=False)
+                            return
                         all_animals.remove(goat)
                         if goat in other_goats:
                             other_goats.remove(goat)
+
         # Win/Lose check
         if not foods:
-            log_message("Congratulations! You consumed all the food. You win!", "green")
+            end_game(player_goat, win=True)
             break
         if player_goat.health<=0:
-            log_message("You have been killed by predators. Game over.", "red")
+            end_game(player_goat, win=False)
             break
 
 if __name__=="__main__":
     main()
-    input()
+    input("Press Enter to exit...")

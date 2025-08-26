@@ -94,4 +94,3 @@ Your goal: consume all the food while avoiding predators.
 
 This project is licensed under the MIT License.
 
-```
